@@ -13,14 +13,12 @@ import klondike.models.builders.CardBuilder;
 import klondike.models.builders.CardListBuilder;
 import klondike.models.builders.PileBuilder;
 
-public class PileTest extends CardStackTest {
+public class PileTest {
 
-	@Override
-	protected CardStack createCardStack() {
+	protected Pile createCardStack() {
 		return new PileBuilder().build();
 	}
 
-	@Override
 	protected List<Card> getCards() {
 		List<Card> cards = new ArrayList<Card>();
 		cards.add(new CardBuilder().number(Number.KING).suit(Suit.CLOVERS).facedUp().build());
