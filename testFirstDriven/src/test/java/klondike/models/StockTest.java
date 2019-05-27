@@ -10,10 +10,9 @@ import org.junit.Test;
 
 import klondike.models.builders.EmptyStockBuilder;
 
-public class StockTest extends CardStackTest {
+public class StockTest {
 
-	@Override
-	protected CardStack createCardStack() {
+	protected Stock createCardStack() {
 		return new EmptyStockBuilder().build();
 	}
 	
