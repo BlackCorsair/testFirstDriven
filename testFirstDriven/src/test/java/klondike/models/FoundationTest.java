@@ -12,16 +12,14 @@ import klondike.models.builders.CardBuilder;
 import klondike.models.builders.FilledFoundationBuilder;
 import klondike.models.builders.FoundationBuilder;
 
-public class FoundationTest extends CardStackTest {
+public class FoundationTest {
 
 	private Suit suit = Suit.PIKES;
 	
-	@Override
-	protected CardStack createCardStack() {
+	protected Foundation createFoundation() {
 		return new FoundationBuilder().suit(this.suit).build();
 	}
 	
-	@Override
 	protected List<Card> getCards(){
 		List<Card> cards = new ArrayList<Card>();
 		cards.add(new CardBuilder().number(Number.AS).suit(this.suit).facedUp().build());
