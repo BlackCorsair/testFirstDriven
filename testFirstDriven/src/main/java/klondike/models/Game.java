@@ -44,7 +44,11 @@ public class Game {
         if (this.stock.empty()) {
             return Error.EMPTY_STOCK;
         }
-        this.waste.push(this.stock.pop().flip());
+        if (this.stock.peek().isFacedUp()) {
+        	this.waste.push(this.stock.pop().flip());
+        } else {
+        	this.waste.push(this.stock.pop());
+        }
         return null;
     }
 
