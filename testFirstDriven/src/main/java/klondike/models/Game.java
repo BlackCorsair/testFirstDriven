@@ -62,12 +62,10 @@ public class Game {
         if (this.waste.empty()) {
             return Error.EMPTY_WASTE;
         }
-        Card card = this.waste.peek();
-        Foundation foundation = this.foundations.get(suit);
-        if (!foundation.fitsIn(card)) {
+        if (!this.foundations.get(suit).fitsIn(this.waste.peek())) {
             return Error.NO_FIT_FOUNDATION;
         }
-        foundation.push(this.waste.pop());
+        this.foundations.get(suit).push(this.waste.pop());
         return null;
     }
 
@@ -89,45 +87,37 @@ public class Game {
         if (this.waste.empty()) {
             return Error.EMPTY_WASTE;
         }
-        Card card = this.waste.peek();
-        Pile pile = this.piles.get(pileIndex);
-        if (!pile.fitsIn(card)) {
+        if (!this.piles.get(pileIndex).fitsIn(this.waste.peek())) {
             return Error.NO_FIT_PILE;
         }
-        pile.addToTop(Arrays.asList(this.waste.pop()));
+        this.piles.get(pileIndex).addToTop(Arrays.asList(this.waste.pop()));
         return null;
     }
 
     public Error moveFromFoundationToPile(Suit suit, int pileIndex) {
         assert suit != null;
         assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-        Foundation foundation = this.foundations.get(suit);
-        Pile pile = this.piles.get(pileIndex);
-        if (foundation.empty()) {
+        if (this.foundations.get(suit).empty()) {
             return Error.EMPTY_FOUNDATION;
         }
-        Card card = foundation.peek();
-        if (!pile.fitsIn(card)) {
+        if (!this.piles.get(pileIndex).fitsIn(this.foundations.get(suit).peek())) {
             return Error.NO_FIT_PILE;
         }
-        pile.addToTop(Arrays.asList(foundation.pop()));
+        this.piles.get(pileIndex).addToTop(Arrays.asList(this.foundations.get(suit).pop()));
         return null;
     }
 
     public Error moveFromPileToFoundation(int pileIndex, Suit suit) {
         assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
         assert suit != null;
-        Pile pile = this.piles.get(pileIndex);
-        Foundation foundation = this.foundations.get(suit);
-        if (pile.empty()) {
+        if (this.piles.get(pileIndex).empty()) {
             return Error.EMPTY_PILE;
         }
-        Card card = pile.getTop(1).get(0);
-        if (!foundation.fitsIn(card)) {
+        if (!this.foundations.get(suit).fitsIn(this.piles.get(pileIndex).peek())) {
             return Error.NO_FIT_FOUNDATION;
         }
-        foundation.push(card);
-        pile.removeTop(1);
+        this.foundations.get(suit).push(this.piles.get(pileIndex).peek());
+        this.piles.get(pileIndex).removeTop(1);
         return null;
     }
 
