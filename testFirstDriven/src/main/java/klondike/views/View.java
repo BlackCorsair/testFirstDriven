@@ -21,7 +21,7 @@ public abstract class View {
             } while (!finished);
             resume = this.resume();
             if (resume) {
-                this.game.clear();
+                this.game = new Game();
             }
         } while (resume);
     }
