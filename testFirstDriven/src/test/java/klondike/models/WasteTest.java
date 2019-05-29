@@ -1,9 +1,8 @@
 package klondike.models;
 
-public class WasteTest extends CardStackTest {
+public class WasteTest {
 
-	@Override
-	protected CardStack createCardStack() {
+	protected Waste createCardStack() {
 		return new Waste();
 	}
 	
