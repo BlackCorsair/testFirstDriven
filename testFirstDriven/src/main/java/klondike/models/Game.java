@@ -17,11 +17,20 @@ public class Game {
     public Game() {
     	this.stock = new Stock();
         this.waste = new Waste();
-        this.foundations = new HashMap<Suit, Foundation>();
+        this.foundationsInitialization();
+        this.pilesInitialization();
+        
+    }
+    
+    private void foundationsInitialization() {
+    	this.foundations = new HashMap<Suit, Foundation>();
         for (Suit suit : Suit.values()) {
             this.foundations.put(suit, new Foundation(suit));
         }
-        this.piles = new ArrayList<Pile>();
+    }
+    
+    private void pilesInitialization() {
+    	this.piles = new ArrayList<Pile>();
         for (int i = 0; i < Game.NUMBER_OF_PILES; i++) {
             this.piles.add(new Pile(i + 1, this.stock.takeTop(i + 1)));
         }
