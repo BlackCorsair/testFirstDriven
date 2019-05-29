@@ -123,9 +123,22 @@ public class Game {
     }
 
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
-        assert (0 <= originIndex) && (originIndex <= Game.NUMBER_OF_PILES);
+    	Error notEligible;
+        if( (notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
+        
+        Pile originPile = this.piles.get(originIndex);
+        Pile destinationPile = this.piles.get(destinationIndex);
+
+        originPile.removeTop(numberOfCards);
+        destinationPile.addToTop(originPile.getTop(numberOfCards));
+        return null;
+    }
+
+    private Error pilesEligibleCheck(int originIndex, int destinationIndex, int numberOfCards) {
+    	assert (0 <= originIndex) && (originIndex <= Game.NUMBER_OF_PILES);
         assert (0 <= destinationIndex) && (destinationIndex <= Game.NUMBER_OF_PILES);
         assert (0 <= numberOfCards);
+        
         if (originIndex == destinationIndex) {
             return Error.SAME_PILE;
         }
@@ -138,11 +151,9 @@ public class Game {
         if (!destinationPile.fitsIn(cards.get(cards.size() - 1))) {
             return Error.NO_FIT_PILE;
         }
-        originPile.removeTop(numberOfCards);
-        destinationPile.addToTop(cards);
+        
         return null;
     }
-
 
     public Stock getStock() {
         return this.stock;
