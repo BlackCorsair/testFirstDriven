@@ -179,7 +179,7 @@ public class GameTest {
 		int ordinalNumber = Number.values().length - 1;
 		int ordinalSuit = 0;
 		do {
-			pile.push(new CardBuilder().number(Number.values()[ordinalNumber]).suit(Suit.values()[ordinalSuit])
+			pile.pushFacedUp(new CardBuilder().number(Number.values()[ordinalNumber]).suit(Suit.values()[ordinalSuit])
 					.facedUp().build());
 			ordinalNumber -= 1;
 			ordinalSuit = (ordinalSuit + 1) % Suit.values().length;

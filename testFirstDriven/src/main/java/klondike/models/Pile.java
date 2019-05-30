@@ -22,8 +22,10 @@ public class Pile {
 		this.flipFirstCard();
 	}
 
-	public void push(Card card) {
+	public void pushFacedUp(Card card) {
 		assert this.fitsIn(card);
+		if (!card.isFacedUp())
+			card.flip();
 		this.cards.push(card);
 		this.numberOfFaceUpCards++;
 	}
@@ -51,12 +53,10 @@ public class Pile {
 				this.cards.subList(this.cards.size() - numberOfCards, this.cards.size()));
 	}
 
-	public void push(List<Card> cards) {
+	public void pushFacedUp(List<Card> cards) {
 		assert cards != null;
 		for (Card card: cards) {
-			if (!card.isFacedUp())
-				card.flip();
-			this.cards.add(card);
+			this.pushFacedUp(card);
 		}
 		this.numberOfFaceUpCards += cards.size();
 	}
