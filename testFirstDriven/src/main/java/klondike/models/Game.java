@@ -2,21 +2,12 @@ package klondike.models;
 
 import java.util.*;
 
-public class Game {
+public class Game extends ActionChecker {
 
     public static final int NUMBER_OF_PILES = 7;
 
-    private Error notEligible;
-
-    private Stock stock;
-
-    private Waste waste;
-
-    private Map<Suit, Foundation> foundations;
-
-    private List<Pile> piles;
-
     public Game() {
+    	super();
         this.notEligible = null;
     	this.stock = new Stock();
         this.waste = new Waste();
@@ -100,81 +91,6 @@ public class Game {
 
     public List<Pile> getPiles() {
         return piles;
-    }
-
-    private Error moveFromWasteToStockEligible() {
-        if (!this.stock.empty()) {
-            return Error.NO_EMPTY_STOCK;
-        }
-        if (this.waste.empty()) {
-            return Error.EMPTY_WASTE;
-        }
-        return this.notEligible = null;
-    }
-
-    private Error moveFromWasteToFoundationEligible(Suit suit) {
-        assert suit != null;
-        if (this.waste.empty()) {
-            return Error.EMPTY_WASTE;
-        }
-        if (!this.foundations.get(suit).fitsIn(this.waste.peek())) {
-            return Error.NO_FIT_FOUNDATION;
-        }
-        return this.notEligible = null;
-    }
-
-    private Error moveFromWasteToPileEligible(int pileIndex) {
-        assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-        if (this.waste.empty()) {
-            return Error.EMPTY_WASTE;
-        }
-        if (!this.piles.get(pileIndex).fitsIn(this.waste.peek())) {
-            return Error.NO_FIT_PILE;
-        }
-        return this.notEligible = null;
-    }
-
-    private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
-        assert suit != null;
-        assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-        if (this.foundations.get(suit).empty()) {
-            return Error.EMPTY_FOUNDATION;
-        }
-        if (!this.piles.get(pileIndex).fitsIn(this.foundations.get(suit).peek())) {
-            return Error.NO_FIT_PILE;
-        }
-        return this.notEligible = null;
-    }
-
-    private Error moveFromPileToFoundationEligible(int pileIndex, Suit suit) {
-    	assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-        assert suit != null;
-        if (this.piles.get(pileIndex).empty()) {
-            return Error.EMPTY_PILE;
-        }
-        if (!this.foundations.get(suit).fitsIn(this.piles.get(pileIndex).peek())) {
-            return Error.NO_FIT_FOUNDATION;
-        }
-        return this.notEligible = null;
-    }
-
-    private Error pilesEligibleCheck(int originIndex, int destinationIndex, int numberOfCards) {
-    	assert (0 <= originIndex) && (originIndex <= Game.NUMBER_OF_PILES);
-        assert (0 <= destinationIndex) && (destinationIndex <= Game.NUMBER_OF_PILES);
-        assert (0 <= numberOfCards);
-        
-        if (originIndex == destinationIndex) {
-            return Error.SAME_PILE;
-        }
-        if (this.piles.get(originIndex).numberOfFaceUpCards() < numberOfCards) {
-            return Error.NO_ENOUGH_CARDS_PILE;
-        }
-        List<Card> cards = this.piles.get(originIndex).peek(numberOfCards);
-        if (!this.piles.get(destinationIndex).fitsIn(cards.get(cards.size() - 1))) {
-            return Error.NO_FIT_PILE;
-        }
-        
-        return this.notEligible = null;
     }
 
     private void foundationsInitialization() {
