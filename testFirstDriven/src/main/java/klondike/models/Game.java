@@ -95,7 +95,14 @@ public class Game {
     }
 
     public Error moveFromFoundationToPile(Suit suit, int pileIndex) {
-        assert suit != null;
+        Error notEligible;
+        if ((notEligible = this.moveFromFoundationToPileEligible(suit, pileIndex)) != null) return notEligible;
+        this.piles.get(pileIndex).addToTop(Arrays.asList(this.foundations.get(suit).pop()));
+        return null;
+    }
+    
+    private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
+    	assert suit != null;
         assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
         if (this.foundations.get(suit).empty()) {
             return Error.EMPTY_FOUNDATION;
@@ -103,7 +110,6 @@ public class Game {
         if (!this.piles.get(pileIndex).fitsIn(this.foundations.get(suit).peek())) {
             return Error.NO_FIT_PILE;
         }
-        this.piles.get(pileIndex).addToTop(Arrays.asList(this.foundations.get(suit).pop()));
         return null;
     }
 
