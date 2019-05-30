@@ -51,12 +51,8 @@ public class Game {
     }
 
     public Error moveFromWasteToStock() {
-        if (!this.stock.empty()) {
-            return Error.NO_EMPTY_STOCK;
-        }
-        if (this.waste.empty()) {
-            return Error.EMPTY_WASTE;
-        }
+        Error notEligible;
+        if ((notEligible = this.moveFromWasteToStockEligible()) != null) return notEligible;
         while (!this.waste.empty()) {
             this.stock.push(this.waste.pop().flip());
         }
