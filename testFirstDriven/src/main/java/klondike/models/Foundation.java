@@ -1,18 +1,20 @@
 package klondike.models;
 
+import java.util.Stack;
+
 public class Foundation {
 	
-	private CardStack stack;
+	private Stack<Card> cards;
 
     private Suit suit;
 
     public Foundation(Suit suit) {
-        this.stack = new CardStack();
+        this.cards = new Stack<Card>();
         this.suit = suit;
     }
 
     public boolean isComplete() {
-        return this.stack.cards.size() == Number.values().length;
+        return this.cards.size() == Number.values().length;
     }
 
     public boolean fitsIn(Card card) {
@@ -27,18 +29,18 @@ public class Foundation {
     }
     
     public boolean empty() {
-        return this.stack.cards.empty();
+        return this.cards.empty();
     }
-    
+
     public Card peek() {
-        return this.stack.cards.peek();
+        return this.cards.peek();
     }
-    
-    public void push(Card card) {
-        this.stack.cards.push(card);
-    }
-    
+
     public Card pop() {
-        return this.stack.cards.pop();
+        return this.cards.pop();
+    }
+
+    public void push(Card card) {
+        this.cards.push(card);
     }
 }
