@@ -75,13 +75,13 @@ public class Game {
     public Error moveFromPileToFoundation(int pileIndex, Suit suit) {
         if ((this.notEligible = this.moveFromPileToFoundationEligible(pileIndex, suit)) != null) return notEligible;
         this.foundations.get(suit).push(this.piles.get(pileIndex).peek());
-        this.piles.get(pileIndex).removeTop(1);
+        this.piles.get(pileIndex).pop(1);
         return null;
     }
     
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
         if( (this.notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
-        this.piles.get(originIndex).removeTop(numberOfCards);
+        this.piles.get(originIndex).pop(numberOfCards);
         this.piles.get(destinationIndex).push(this.piles.get(originIndex).peek(numberOfCards));
         return null;
     }

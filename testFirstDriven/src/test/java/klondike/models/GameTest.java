@@ -41,7 +41,7 @@ public class GameTest {
 			Pile pile = piles.get(i);
 			for (int j = 0; j < i + 1; j++) {
 				Card card = pile.peek();
-				pile.removeTop(1);
+				pile.pop(1);
 				assertTrue(card.isFacedUp());
 			}
 			assertTrue(pile.empty());

@@ -56,15 +56,17 @@ public class Pile {
 		this.numberOfFaceUpCards += cards.size();
 	}
 
-	public void removeTop(int numberOfCards) {
+	public List<Card> pop(int numberOfCards) {
 		assert numberOfCards <= this.numberOfFaceUpCards;
+		List<Card> cardsToReturn = new ArrayList<Card>();
 		for (int i = 0; i < numberOfCards; i++) {
-			this.cards.pop();
+			cardsToReturn.add(this.cards.pop());
 			numberOfFaceUpCards--;
 		}
 		if (this.numberOfFaceUpCards == 0 && !this.cards.empty()) {
 			flipFirstCard();
 		}
+		return cardsToReturn;
 	}
 
 	public int numberOfFaceUpCards() {
