@@ -44,7 +44,7 @@ public class Pile {
 				&& this.cards.peek().isNextTo(card) && this.cards.peek().getColor() != card.getColor());
 	}
 
-	public List<Card> getTop(int numberOfCards) {
+	public List<Card> peek(int numberOfCards) {
 		assert numberOfCards <= this.numberOfFaceUpCards;
 		return new ArrayList<Card>(
 				this.cards.subList(this.cards.size() - numberOfCards, this.cards.size()));

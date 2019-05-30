@@ -82,7 +82,7 @@ public class Game {
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
         if( (this.notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
         this.piles.get(originIndex).removeTop(numberOfCards);
-        this.piles.get(destinationIndex).addToTop(this.piles.get(originIndex).getTop(numberOfCards));
+        this.piles.get(destinationIndex).addToTop(this.piles.get(originIndex).peek(numberOfCards));
         return null;
     }
 
@@ -169,7 +169,7 @@ public class Game {
         if (this.piles.get(originIndex).numberOfFaceUpCards() < numberOfCards) {
             return Error.NO_ENOUGH_CARDS_PILE;
         }
-        List<Card> cards = this.piles.get(originIndex).getTop(numberOfCards);
+        List<Card> cards = this.piles.get(originIndex).peek(numberOfCards);
         if (!this.piles.get(destinationIndex).fitsIn(cards.get(cards.size() - 1))) {
             return Error.NO_FIT_PILE;
         }
