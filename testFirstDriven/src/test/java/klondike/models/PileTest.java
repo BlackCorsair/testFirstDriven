@@ -15,7 +15,7 @@ import klondike.models.builders.PileBuilder;
 
 public class PileTest {
 
-	protected Pile createCardStack() {
+	protected Pile createPile() {
 		return new PileBuilder().build();
 	}
 

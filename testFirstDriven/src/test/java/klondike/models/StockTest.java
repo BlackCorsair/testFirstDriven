@@ -12,7 +12,7 @@ import klondike.models.builders.EmptyStockBuilder;
 
 public class StockTest {
 
-	protected Stock createCardStack() {
+	protected Stock createStock() {
 		return new EmptyStockBuilder().build();
 	}
 	
