@@ -83,14 +83,20 @@ public class Game {
     }
 
     public Error moveFromWasteToPile(int pileIndex) {
-        assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
+        Error notEligible;
+        if ((notEligible = this.moveFromWasteToPileEligible(pileIndex)) != null) return notEligible;
+        this.piles.get(pileIndex).addToTop(Arrays.asList(this.waste.pop()));
+        return null;
+    }
+    
+    private Error moveFromWasteToPileEligible(int pileIndex) {
+    	assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
         if (this.waste.empty()) {
             return Error.EMPTY_WASTE;
         }
         if (!this.piles.get(pileIndex).fitsIn(this.waste.peek())) {
             return Error.NO_FIT_PILE;
         }
-        this.piles.get(pileIndex).addToTop(Arrays.asList(this.waste.pop()));
         return null;
     }
 
