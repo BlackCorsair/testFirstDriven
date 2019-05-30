@@ -1,6 +1,7 @@
 package klondike.models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -52,7 +53,11 @@ public class Pile {
 
 	public void push(List<Card> cards) {
 		assert cards != null;
-		this.cards.addAll(cards);
+		for (Card card: cards) {
+			if (!card.isFacedUp())
+				card.flip();
+			this.cards.add(card);
+		}
 		this.numberOfFaceUpCards += cards.size();
 	}
 
