@@ -83,7 +83,7 @@ public class PileTest {
 				.card(new CardBuilder().number(Number.NINE).suit(Suit.CLOVERS).facedUp().build())
 				.card(new CardBuilder().number(Number.EIGHT).suit(Suit.DIAMONDS).facedUp().build())
 				.card(new CardBuilder().number(Number.SEVEN).suit(Suit.PIKES).facedUp().build()).build();
-		pile.addToTop(cards);
+		pile.push(cards);
 		cards.add(0, topCard);
 		assertEquals(cards, pile.peek(cards.size()));
 	}

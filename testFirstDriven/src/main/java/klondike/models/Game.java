@@ -62,13 +62,13 @@ public class Game {
 
     public Error moveFromWasteToPile(int pileIndex) {
         if ((this.notEligible = this.moveFromWasteToPileEligible(pileIndex)) != null) return notEligible;
-        this.piles.get(pileIndex).addToTop(Arrays.asList(this.waste.pop()));
+        this.piles.get(pileIndex).push(Arrays.asList(this.waste.pop()));
         return null;
     }
 
     public Error moveFromFoundationToPile(Suit suit, int pileIndex) {
         if ((this.notEligible = this.moveFromFoundationToPileEligible(suit, pileIndex)) != null) return notEligible;
-        this.piles.get(pileIndex).addToTop(Arrays.asList(this.foundations.get(suit).pop()));
+        this.piles.get(pileIndex).push(Arrays.asList(this.foundations.get(suit).pop()));
         return null;
     }
 
@@ -82,7 +82,7 @@ public class Game {
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
         if( (this.notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
         this.piles.get(originIndex).removeTop(numberOfCards);
-        this.piles.get(destinationIndex).addToTop(this.piles.get(originIndex).peek(numberOfCards));
+        this.piles.get(destinationIndex).push(this.piles.get(originIndex).peek(numberOfCards));
         return null;
     }
 
