@@ -44,13 +44,8 @@ public class Game {
     }
 
     public Error moveFromWasteToFoundation(Suit suit) {
-        assert suit != null;
-        if (this.waste.empty()) {
-            return Error.EMPTY_WASTE;
-        }
-        if (!this.foundations.get(suit).fitsIn(this.waste.peek())) {
-            return Error.NO_FIT_FOUNDATION;
-        }
+        Error notEligible;
+        if ((notEligible = this.moveFromWasteToFoundationEligible(suit)) != null) return notEligible;
         this.foundations.get(suit).push(this.waste.pop());
         return null;
     }
