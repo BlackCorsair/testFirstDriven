@@ -187,7 +187,7 @@ public class Game {
     private void pilesInitialization() {
         this.piles = new ArrayList<Pile>();
         for (int i = 0; i < Game.NUMBER_OF_PILES; i++) {
-            this.piles.add(new Pile(i + 1, this.stock.takeTop(i + 1)));
+            this.piles.add(new Pile(i + 1, this.stock.pop(i + 1)));
         }
     }
 }

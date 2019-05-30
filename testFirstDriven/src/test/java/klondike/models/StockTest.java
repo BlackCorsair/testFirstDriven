@@ -21,7 +21,7 @@ public class StockTest {
 	@Test
 	public void testStock() {
 		Stock stock = new Stock();
-		List<Card> cards = stock.takeTop(StockTest.NUMBER_CARDS);
+		List<Card> cards = stock.pop(StockTest.NUMBER_CARDS);
 		this.assertDifferentCards(cards);
 		this.assertNumberTimes(cards);
 		this.assertSuitTimes(cards);
@@ -60,14 +60,14 @@ public class StockTest {
 	@Test
 	public void testTakeTopOne(){
 		Stock stock = new Stock();
-		List<Card> cardList = stock.takeTop(1);
+		List<Card> cardList = stock.pop(1);
 		assertEquals(1, cardList.size());
 	}
 	
 	@Test
 	public void testTakeTopAll(){
 		Stock stock = new Stock();
-		List<Card> cardList = stock.takeTop(StockTest.NUMBER_CARDS);
+		List<Card> cardList = stock.pop(StockTest.NUMBER_CARDS);
 		assertEquals(StockTest.NUMBER_CARDS, cardList.size());
 		assertTrue(stock.empty());
 	}
