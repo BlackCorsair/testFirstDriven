@@ -3,42 +3,43 @@ package klondike.models;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class Stock {
 
-	private CardStack stack;
+	private Stack<Card> cards;
 
 	public Stock() {
-		this.stack = new CardStack();
+		this.cards = new Stack<Card>();
 		for (Suit suit : Suit.values()) {
 			for (Number number : Number.values()) {
-				this.stack.cards.add(new Card(suit, number));
+				this.cards.add(new Card(suit, number));
 			}
 		}
-		Collections.shuffle(this.stack.cards);
+		Collections.shuffle(this.cards);
 	}
 
 	public List<Card> takeTop(int quantity) {
-		assert 0 < quantity && quantity <= this.stack.cards.size();
-		List<Card> cardsToReturn = new ArrayList<Card>(this.stack.cards.subList(0, quantity));
-		this.stack.cards.removeAll(cardsToReturn);
+		assert 0 < quantity && quantity <= this.cards.size();
+		List<Card> cardsToReturn = new ArrayList<Card>(this.cards.subList(0, quantity));
+		this.cards.removeAll(cardsToReturn);
 		return cardsToReturn;
 	}
 
 	public boolean empty() {
-		return this.stack.cards.empty();
+		return this.cards.empty();
 	}
 
 	public Card peek() {
-		return this.stack.cards.peek();
+		return this.cards.peek();
 	}
 
 	public void push(Card card) {
-		this.stack.cards.push(card);
+		this.cards.push(card);
 	}
 
 	public Card pop() {
-		return this.stack.cards.pop();
+		return this.cards.pop();
 	}
 
 }
