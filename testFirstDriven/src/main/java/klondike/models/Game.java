@@ -147,13 +147,11 @@ public class Game {
         if (originIndex == destinationIndex) {
             return Error.SAME_PILE;
         }
-        Pile originPile = this.piles.get(originIndex);
-        Pile destinationPile = this.piles.get(destinationIndex);
-        if (originPile.numberOfFaceUpCards() < numberOfCards) {
+        if (this.piles.get(originIndex).numberOfFaceUpCards() < numberOfCards) {
             return Error.NO_ENOUGH_CARDS_PILE;
         }
-        List<Card> cards = originPile.getTop(numberOfCards);
-        if (!destinationPile.fitsIn(cards.get(cards.size() - 1))) {
+        List<Card> cards = this.piles.get(originIndex).getTop(numberOfCards);
+        if (!this.piles.get(destinationIndex).fitsIn(cards.get(cards.size() - 1))) {
             return Error.NO_FIT_PILE;
         }
         
