@@ -75,7 +75,7 @@ public class Game {
     public Error moveFromPileToFoundation(int pileIndex, Suit suit) {
         if ((this.notEligible = this.moveFromPileToFoundationEligible(pileIndex, suit)) != null) return notEligible;
         this.foundations.get(suit).push(this.piles.get(pileIndex).peek());
-        this.piles.get(pileIndex).pop(1);
+        this.piles.get(pileIndex).pop();
         return null;
     }
     
