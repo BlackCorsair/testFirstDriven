@@ -142,12 +142,8 @@ public class Game {
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
     	Error notEligible;
         if( (notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
-        
-        Pile originPile = this.piles.get(originIndex);
-        Pile destinationPile = this.piles.get(destinationIndex);
-
-        originPile.removeTop(numberOfCards);
-        destinationPile.addToTop(originPile.getTop(numberOfCards));
+        this.piles.get(originIndex).removeTop(numberOfCards);
+        this.piles.get(destinationIndex).addToTop(this.piles.get(originIndex).getTop(numberOfCards));
         return null;
     }
 
