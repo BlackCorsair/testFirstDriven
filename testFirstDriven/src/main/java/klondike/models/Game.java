@@ -6,8 +6,6 @@ public class Game {
 
     public static final int NUMBER_OF_PILES = 7;
 
-    private Error notEligible;
-
     private Stock stock;
 
     private Waste waste;
@@ -17,7 +15,6 @@ public class Game {
     private List<Pile> piles;
 
     public Game() {
-        this.notEligible = null;
     	this.stock = new Stock();
         this.waste = new Waste();
         this.foundationsInitialization();
@@ -47,13 +44,15 @@ public class Game {
     }
 
     public Error moveFromWasteToFoundation(Suit suit) {
-        if ((this.notEligible = this.moveFromWasteToFoundationEligible(suit)) != null) return notEligible;
+    	Error error;
+        if ((error = this.moveFromWasteToFoundationEligible(suit)) != null) return error;
         this.foundations.get(suit).push(this.waste.pop());
         return null;
     }
 
     public Error moveFromWasteToStock() {
-        if ((this.notEligible = this.moveFromWasteToStockEligible()) != null) return notEligible;
+    	Error error;
+        if ((error = this.moveFromWasteToStockEligible()) != null) return error;
         while (!this.waste.empty()) {
             this.stock.push(this.waste.pop().flip());
         }
@@ -61,26 +60,30 @@ public class Game {
     }
 
     public Error moveFromWasteToPile(int pileIndex) {
-        if ((this.notEligible = this.moveFromWasteToPileEligible(pileIndex)) != null) return notEligible;
+    	Error error;
+        if ((error = this.moveFromWasteToPileEligible(pileIndex)) != null) return error;
         this.piles.get(pileIndex).push(Arrays.asList(this.waste.pop()));
         return null;
     }
 
     public Error moveFromFoundationToPile(Suit suit, int pileIndex) {
-        if ((this.notEligible = this.moveFromFoundationToPileEligible(suit, pileIndex)) != null) return notEligible;
+        Error error;
+    	if ((error = this.moveFromFoundationToPileEligible(suit, pileIndex)) != null) return error;
         this.piles.get(pileIndex).push(Arrays.asList(this.foundations.get(suit).pop()));
         return null;
     }
 
     public Error moveFromPileToFoundation(int pileIndex, Suit suit) {
-        if ((this.notEligible = this.moveFromPileToFoundationEligible(pileIndex, suit)) != null) return notEligible;
+    	Error error;
+        if ((error = this.moveFromPileToFoundationEligible(pileIndex, suit)) != null) return error;
         this.foundations.get(suit).push(this.piles.get(pileIndex).peek());
         this.piles.get(pileIndex).pop();
         return null;
     }
     
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
-        if( (this.notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
+    	Error error;
+        if( (error = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return error;
         this.piles.get(originIndex).pop(numberOfCards);
         this.piles.get(destinationIndex).push(this.piles.get(originIndex).peek(numberOfCards));
         return null;
@@ -109,7 +112,7 @@ public class Game {
         if (this.waste.empty()) {
             return Error.EMPTY_WASTE;
         }
-        return this.notEligible = null;
+        return null;
     }
 
     private Error moveFromWasteToFoundationEligible(Suit suit) {
@@ -120,7 +123,7 @@ public class Game {
         if (!this.foundations.get(suit).fitsIn(this.waste.peek())) {
             return Error.NO_FIT_FOUNDATION;
         }
-        return this.notEligible = null;
+        return null;
     }
 
     private Error moveFromWasteToPileEligible(int pileIndex) {
@@ -131,7 +134,7 @@ public class Game {
         if (!this.piles.get(pileIndex).fitsIn(this.waste.peek())) {
             return Error.NO_FIT_PILE;
         }
-        return this.notEligible = null;
+        return null;
     }
 
     private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
@@ -143,7 +146,7 @@ public class Game {
         if (!this.piles.get(pileIndex).fitsIn(this.foundations.get(suit).peek())) {
             return Error.NO_FIT_PILE;
         }
-        return this.notEligible = null;
+        return null;
     }
 
     private Error moveFromPileToFoundationEligible(int pileIndex, Suit suit) {
@@ -155,7 +158,7 @@ public class Game {
         if (!this.foundations.get(suit).fitsIn(this.piles.get(pileIndex).peek())) {
             return Error.NO_FIT_FOUNDATION;
         }
-        return this.notEligible = null;
+        return null;
     }
 
     private Error pilesEligibleCheck(int originIndex, int destinationIndex, int numberOfCards) {
@@ -174,7 +177,7 @@ public class Game {
             return Error.NO_FIT_PILE;
         }
         
-        return this.notEligible = null;
+        return null;
     }
 
     private void foundationsInitialization() {
