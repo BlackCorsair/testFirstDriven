@@ -21,20 +21,6 @@ public class Game {
         this.pilesInitialization();
         
     }
-    
-    private void foundationsInitialization() {
-    	this.foundations = new HashMap<Suit, Foundation>();
-        for (Suit suit : Suit.values()) {
-            this.foundations.put(suit, new Foundation(suit));
-        }
-    }
-    
-    private void pilesInitialization() {
-    	this.piles = new ArrayList<Pile>();
-        for (int i = 0; i < Game.NUMBER_OF_PILES; i++) {
-            this.piles.add(new Pile(i + 1, this.stock.takeTop(i + 1)));
-        }
-    }
 
     public boolean isFinished() {
         for (Suit suit : Suit.values()) {
@@ -88,34 +74,11 @@ public class Game {
         this.piles.get(pileIndex).addToTop(Arrays.asList(this.waste.pop()));
         return null;
     }
-    
-    private Error moveFromWasteToPileEligible(int pileIndex) {
-    	assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-        if (this.waste.empty()) {
-            return Error.EMPTY_WASTE;
-        }
-        if (!this.piles.get(pileIndex).fitsIn(this.waste.peek())) {
-            return Error.NO_FIT_PILE;
-        }
-        return null;
-    }
 
     public Error moveFromFoundationToPile(Suit suit, int pileIndex) {
         Error notEligible;
         if ((notEligible = this.moveFromFoundationToPileEligible(suit, pileIndex)) != null) return notEligible;
         this.piles.get(pileIndex).addToTop(Arrays.asList(this.foundations.get(suit).pop()));
-        return null;
-    }
-    
-    private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
-    	assert suit != null;
-        assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-        if (this.foundations.get(suit).empty()) {
-            return Error.EMPTY_FOUNDATION;
-        }
-        if (!this.piles.get(pileIndex).fitsIn(this.foundations.get(suit).peek())) {
-            return Error.NO_FIT_PILE;
-        }
         return null;
     }
 
@@ -127,6 +90,74 @@ public class Game {
         return null;
     }
     
+    public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
+    	Error notEligible;
+        if( (notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
+        this.piles.get(originIndex).removeTop(numberOfCards);
+        this.piles.get(destinationIndex).addToTop(this.piles.get(originIndex).getTop(numberOfCards));
+        return null;
+    }
+
+    public Stock getStock() {
+        return this.stock;
+    }
+
+    public Waste getWaste() {
+        return this.waste;
+    }
+
+    public Map<Suit, Foundation> getFoundations() {
+        return foundations;
+    }
+
+    public List<Pile> getPiles() {
+        return piles;
+    }
+
+    private Error moveFromWasteToStockEligible() {
+        if (!this.stock.empty()) {
+            return Error.NO_EMPTY_STOCK;
+        }
+        if (this.waste.empty()) {
+            return Error.EMPTY_WASTE;
+        }
+        return null;
+    }
+
+    private Error moveFromWasteToFoundationEligible(Suit suit) {
+        assert suit != null;
+        if (this.waste.empty()) {
+            return Error.EMPTY_WASTE;
+        }
+        if (!this.foundations.get(suit).fitsIn(this.waste.peek())) {
+            return Error.NO_FIT_FOUNDATION;
+        }
+        return null;
+    }
+
+    private Error moveFromWasteToPileEligible(int pileIndex) {
+        assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
+        if (this.waste.empty()) {
+            return Error.EMPTY_WASTE;
+        }
+        if (!this.piles.get(pileIndex).fitsIn(this.waste.peek())) {
+            return Error.NO_FIT_PILE;
+        }
+        return null;
+    }
+
+    private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
+        assert suit != null;
+        assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
+        if (this.foundations.get(suit).empty()) {
+            return Error.EMPTY_FOUNDATION;
+        }
+        if (!this.piles.get(pileIndex).fitsIn(this.foundations.get(suit).peek())) {
+            return Error.NO_FIT_PILE;
+        }
+        return null;
+    }
+
     private Error moveFromPileToFoundationEligible(int pileIndex, Suit suit) {
     	assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
         assert suit != null;
@@ -136,14 +167,6 @@ public class Game {
         if (!this.foundations.get(suit).fitsIn(this.piles.get(pileIndex).peek())) {
             return Error.NO_FIT_FOUNDATION;
         }
-        return null;
-    }
-
-    public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
-    	Error notEligible;
-        if( (notEligible = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return notEligible;
-        this.piles.get(originIndex).removeTop(numberOfCards);
-        this.piles.get(destinationIndex).addToTop(this.piles.get(originIndex).getTop(numberOfCards));
         return null;
     }
 
@@ -166,19 +189,17 @@ public class Game {
         return null;
     }
 
-    public Stock getStock() {
-        return this.stock;
+    private void foundationsInitialization() {
+        this.foundations = new HashMap<Suit, Foundation>();
+        for (Suit suit : Suit.values()) {
+            this.foundations.put(suit, new Foundation(suit));
+        }
     }
-
-    public Waste getWaste() {
-        return this.waste;
-    }
-
-    public Map<Suit, Foundation> getFoundations() {
-        return foundations;
-    }
-
-    public List<Pile> getPiles() {
-        return piles;
+    
+    private void pilesInitialization() {
+        this.piles = new ArrayList<Pile>();
+        for (int i = 0; i < Game.NUMBER_OF_PILES; i++) {
+            this.piles.add(new Pile(i + 1, this.stock.takeTop(i + 1)));
+        }
     }
 }
