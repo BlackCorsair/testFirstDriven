@@ -44,15 +44,17 @@ public class Game {
     }
 
     public Error moveFromWasteToFoundation(Suit suit) {
-    	Error error;
-        if ((error = this.moveFromWasteToFoundationEligible(suit)) != null) return error;
+    	Error error = this.moveFromWasteToFoundationEligible(suit);
+        if (error != null)
+        	return error;
         this.foundations.get(suit).push(this.waste.pop());
         return null;
     }
 
     public Error moveFromWasteToStock() {
-    	Error error;
-        if ((error = this.moveFromWasteToStockEligible()) != null) return error;
+    	Error error = this.moveFromWasteToStockEligible();
+        if (error != null)
+        	return error;
         while (!this.waste.empty()) {
             this.stock.push(this.waste.pop().flip());
         }
@@ -60,30 +62,34 @@ public class Game {
     }
 
     public Error moveFromWasteToPile(int pileIndex) {
-    	Error error;
-        if ((error = this.moveFromWasteToPileEligible(pileIndex)) != null) return error;
+    	Error error = this.moveFromWasteToPileEligible(pileIndex);
+        if (error != null)
+        	return error;
         this.piles.get(pileIndex).pushFacedUp(Arrays.asList(this.waste.pop()));
         return null;
     }
 
     public Error moveFromFoundationToPile(Suit suit, int pileIndex) {
-        Error error;
-    	if ((error = this.moveFromFoundationToPileEligible(suit, pileIndex)) != null) return error;
+        Error error = this.moveFromFoundationToPileEligible(suit, pileIndex);
+    	if (error != null)
+    		return error;
         this.piles.get(pileIndex).pushFacedUp(Arrays.asList(this.foundations.get(suit).pop()));
         return null;
     }
 
     public Error moveFromPileToFoundation(int pileIndex, Suit suit) {
-    	Error error;
-        if ((error = this.moveFromPileToFoundationEligible(pileIndex, suit)) != null) return error;
+    	Error error = this.moveFromPileToFoundationEligible(pileIndex, suit);
+        if (error != null)
+        	return error;
         this.foundations.get(suit).push(this.piles.get(pileIndex).peek());
         this.piles.get(pileIndex).pop();
         return null;
     }
     
     public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
-    	Error error;
-        if( (error = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards)) != null) return error;
+    	Error error = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards);
+        if( error != null)
+        	return error;
         this.piles.get(originIndex).pop(numberOfCards);
         this.piles.get(destinationIndex).pushFacedUp(this.piles.get(originIndex).peek(numberOfCards));
         return null;
