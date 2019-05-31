@@ -5,6 +5,8 @@ import java.util.*;
 public class Game {
 
 	public static final int NUMBER_OF_PILES = 7;
+	
+	private static final Interval PILE_INTERVAL = new Interval(0, Game.NUMBER_OF_PILES);
 
 	private Stock stock;
 
@@ -66,7 +68,7 @@ public class Game {
 	}
 
 	private Error moveFromWasteToFoundationEligible(Suit suit) {
-		assert Game.objectIsNotNull(suit);
+		assert suit != null;
 		if (this.waste.empty()) {
 			return Error.EMPTY_WASTE;
 		}
@@ -105,7 +107,7 @@ public class Game {
 	}
 
 	private Error moveFromWasteToPileEligible(int pileIndex) {
-		assert Game.indexInsideInterval(pileIndex);
+		assert Game.PILE_INTERVAL.isIncluded(pileIndex);
 		if (this.waste.empty()) {
 			return Error.EMPTY_WASTE;
 		}
@@ -124,8 +126,8 @@ public class Game {
 	}
 
 	private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
-		assert Game.objectIsNotNull(suit);
-		assert Game.indexInsideInterval(pileIndex);
+		assert suit != null;
+		assert Game.PILE_INTERVAL.isIncluded(pileIndex);
 		if (this.foundations.get(suit).empty()) {
 			return Error.EMPTY_FOUNDATION;
 		}
@@ -145,8 +147,8 @@ public class Game {
 	}
 
 	private Error moveFromPileToFoundationEligible(int pileIndex, Suit suit) {
-		assert Game.indexInsideInterval(pileIndex);
-		assert Game.objectIsNotNull(suit);
+		assert Game.PILE_INTERVAL.isIncluded(pileIndex);
+		assert suit != null;
 		if (this.piles.get(pileIndex).empty()) {
 			return Error.EMPTY_PILE;
 		}
@@ -156,20 +158,6 @@ public class Game {
 		return null;
 	}
 	
-	private static boolean indexInsideInterval (int index) {
-		return 0 <= index && index <= Game.NUMBER_OF_PILES;
-	}
-	
-	private static boolean objectIsNotNull(Object obj) {
-		if (obj != null)
-			return true;
-		return false;
-	}
-	
-	private static boolean numberAboveZero(int number) {
-		return 0 < number;
-	}
-
 	public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
 		Error error = this.pilesEligibleCheck(originIndex, destinationIndex, numberOfCards);
 		if (error != null)
@@ -180,9 +168,9 @@ public class Game {
 	}
 
 	private Error pilesEligibleCheck(int originIndex, int destinationIndex, int numberOfCards) {
-		assert Game.indexInsideInterval(originIndex);
-		assert Game.indexInsideInterval(destinationIndex);
-		assert Game.numberAboveZero(numberOfCards);
+		assert Game.PILE_INTERVAL.isIncluded(originIndex);
+		assert Game.PILE_INTERVAL.isIncluded(destinationIndex);
+		assert numberOfCards > 0;
 
 		if (originIndex == destinationIndex) {
 			return Error.SAME_PILE;
