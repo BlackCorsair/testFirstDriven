@@ -66,7 +66,7 @@ public class Game {
 	}
 
 	private Error moveFromWasteToFoundationEligible(Suit suit) {
-		assert suit != null;
+		assert Game.objectIsNotNull(suit);
 		if (this.waste.empty()) {
 			return Error.EMPTY_WASTE;
 		}
@@ -105,7 +105,7 @@ public class Game {
 	}
 
 	private Error moveFromWasteToPileEligible(int pileIndex) {
-		assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
+		assert Game.indexInsideInterval(pileIndex);
 		if (this.waste.empty()) {
 			return Error.EMPTY_WASTE;
 		}
@@ -124,8 +124,8 @@ public class Game {
 	}
 
 	private Error moveFromFoundationToPileEligible(Suit suit, int pileIndex) {
-		assert suit != null;
-		assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
+		assert Game.objectIsNotNull(suit);
+		assert Game.indexInsideInterval(pileIndex);
 		if (this.foundations.get(suit).empty()) {
 			return Error.EMPTY_FOUNDATION;
 		}
@@ -145,8 +145,8 @@ public class Game {
 	}
 
 	private Error moveFromPileToFoundationEligible(int pileIndex, Suit suit) {
-		assert (0 <= pileIndex) && (pileIndex <= Game.NUMBER_OF_PILES);
-		assert suit != null;
+		assert Game.indexInsideInterval(pileIndex);
+		assert Game.objectIsNotNull(suit);
 		if (this.piles.get(pileIndex).empty()) {
 			return Error.EMPTY_PILE;
 		}
@@ -154,6 +154,20 @@ public class Game {
 			return Error.NO_FIT_FOUNDATION;
 		}
 		return null;
+	}
+	
+	private static boolean indexInsideInterval (int index) {
+		return 0 <= index && index <= Game.NUMBER_OF_PILES;
+	}
+	
+	private static boolean objectIsNotNull(Object obj) {
+		if (obj != null)
+			return true;
+		return false;
+	}
+	
+	private static boolean numberAboveZero(int number) {
+		return 0 < number;
 	}
 
 	public Error moveFromPileToPile(int originIndex, int destinationIndex, int numberOfCards) {
@@ -166,9 +180,9 @@ public class Game {
 	}
 
 	private Error pilesEligibleCheck(int originIndex, int destinationIndex, int numberOfCards) {
-		assert (0 <= originIndex) && (originIndex <= Game.NUMBER_OF_PILES);
-		assert (0 <= destinationIndex) && (destinationIndex <= Game.NUMBER_OF_PILES);
-		assert (0 <= numberOfCards);
+		assert Game.indexInsideInterval(originIndex);
+		assert Game.indexInsideInterval(destinationIndex);
+		assert Game.numberAboveZero(numberOfCards);
 
 		if (originIndex == destinationIndex) {
 			return Error.SAME_PILE;
